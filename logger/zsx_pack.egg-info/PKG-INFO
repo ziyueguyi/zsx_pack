@@ -9,6 +9,8 @@ Maintainer: zsx
 Maintainer-email: 17630583910@163.com
 License: MIT
 Project-URL: Bug Tracker, https://github.com/ziyueguyi/zsx_pack
+Platform: Windows
+Platform: Linux
 Classifier: Development Status :: 3 - Alpha
 Classifier: Intended Audience :: Developers
 Classifier: Topic :: Software Development :: Build Tools

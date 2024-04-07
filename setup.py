@@ -46,8 +46,9 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
     ],
     install_requires=['colorama>=0.4.6'],
-    package_dir={"": "logger"},
+    package_dir={"logger": "logger"},
     python_requires=">=3.6",
+    platforms=["Windows", "Linux"],
 
 )
 
@@ -176,7 +177,7 @@ setuptools.setup(
 #         "Bug Tracker": "https://github.com/ziyueguyi/zsx_pack",
 #     },
 #
-#     package_dir={"": "logger"},
+#     package_dir={"logger": "logger"},
 #
 #     # 列出项目内需要被打包的所有 package。一般使用 setuptools.find_packages() 自动发现
 #     # exclude 用于排除不打包的 package
