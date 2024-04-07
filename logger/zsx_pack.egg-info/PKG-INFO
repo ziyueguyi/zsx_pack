@@ -5,14 +5,20 @@ Summary: 自用包，主要是为了logger无法屏蔽第三方包日志而开�
 Home-page: https://github.com/ziyueguyi/zsx_pack
 Author: zsx
 Author-email: 17630583910@163.com
+Maintainer: zsx
+Maintainer-email: 17630583910@163.com
+License: MIT
 Project-URL: Bug Tracker, https://github.com/ziyueguyi/zsx_pack
-Classifier: Programming Language :: Python :: 3
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
 Classifier: License :: OSI Approved :: MIT License
-Classifier: Operating System :: OS Independent
 Classifier: Natural Language :: Chinese (Simplified)
+Classifier: Programming Language :: Python :: 3
 Requires-Python: >=3.6
 Description-Content-Type: text/markdown
 License-File: LICENSE.txt
+Requires-Dist: colorama>=0.4.6
 
 # Example Package
 

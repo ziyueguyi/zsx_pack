@@ -7,4 +7,5 @@ logger/logger.py
 logger/zsx_pack.egg-info/PKG-INFO
 logger/zsx_pack.egg-info/SOURCES.txt
 logger/zsx_pack.egg-info/dependency_links.txt
+logger/zsx_pack.egg-info/requires.txt
 logger/zsx_pack.egg-info/top_level.txt
