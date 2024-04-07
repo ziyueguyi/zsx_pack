@@ -1,3 +1,4 @@
 dist/
 build/
 zsx_pack.egg-info/
+.idea/
