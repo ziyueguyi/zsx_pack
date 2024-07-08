@@ -6,16 +6,18 @@
 # @日期时间 :2024/4/3 17:06
 # @文件介绍 :
 """
-import setuptools
+from setuptools import setup, find_packages
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
+requirements = [
 
-setuptools.setup(
+]
+setup(
     # 在 PyPI 上搜索的项目名称。
     name="zsx_pack",
     # 项目版本号，一般由三部分组成：MAJOR, MINOR, MAINTENANCE
-    version="1.0.0",
+    version="1.0.4",
     # 作者信息
     author="zsx",
     author_email="17630583910@163.com",
@@ -45,9 +47,12 @@ setuptools.setup(
         "Natural Language :: Chinese (Simplified)",
         "Programming Language :: Python :: 3",
     ],
-    install_requires=['colorama>=0.4.6'],
+    install_requires=[
+        'colorama>=0.4.6',
+    ],
     package_dir={"logger": "logger"},
     python_requires=">=3.6",
     platforms=["Windows", "Linux"],
+    packages=find_packages(),
 
 )

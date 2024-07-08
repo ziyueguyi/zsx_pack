@@ -158,7 +158,7 @@ class Logger(object):
         self.__params_dict = {
             "[datetime]": self.__dt(),
             "[class_name]": self.__class_name(),
-            "[lineno]": self.__line_no(),
+            "[lineno]": "0",
             "[log_level]": "",
             "[message|extra]": "[message|extra]",
         }
@@ -280,10 +280,11 @@ class Logger(object):
         """
         if self.params.get("log_dir"):
             today = ""
+            categorize = self.params.get("title") if self.params.get("categorize") else ""
             if self.params.get("date_rotate"):
                 localtime = time.localtime()
                 today = os.path.join(str(localtime.tm_year), str(localtime.tm_mon), str(localtime.tm_mday))
-            filepath = os.path.join(self.params.get("log_dir"), today)
+            filepath = os.path.join(self.params.get("log_dir"), today, categorize)
             os.makedirs(filepath, exist_ok=True)
             filepath = os.path.join(filepath, "{0}.{1}".format(self.params.get("title"), log_level.lower()))
             file = open(filepath, 'a', encoding=self.params.get("file_encoding"))
@@ -331,7 +332,7 @@ class Logger(object):
         获取行号信息
         :return:
         """
-        frame = inspect.currentframe().f_back.f_back
+        frame = inspect.currentframe().f_back.f_back.f_back.f_back
         return "{0:0>5d}".format(frame.f_lineno)
 
     @property
@@ -416,6 +417,7 @@ class Logger(object):
         self.__params_dict["[extra]"] = extra
         self.__params_dict["[message|extra]"] = "{0}|{1}".format(message, extra) if extra else message
         self.__params_dict["[datetime]"] = self.__dt()
+        self.__params_dict["[lineno]"] = self.__line_no()
 
     def __format_message(self, log_level, message, extra, end=os.linesep):
         """
@@ -535,12 +537,13 @@ class Logger(object):
         """
         self.__format_message(self.__log_level.critical, message, extra)
 
-    def exception(self, message, extra=None):
+    def exception(self, message, extra=None, exc_info=Exception):
         """
         严重的错误
         :param message:
         :param extra:
+        :param exc_info:异常类型
         :return:
         """
         self.__format_message(self.__log_level.critical, message, extra)
-        raise Exception(message)
+        raise exc_info(message)
