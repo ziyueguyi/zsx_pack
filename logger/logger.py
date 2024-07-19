@@ -6,6 +6,7 @@
 # @日期时间 :2024/2/29 13:25
 # @文件介绍 :
 """
+from enum import Enum
 import inspect
 import os
 import re
@@ -14,6 +15,22 @@ from datetime import datetime
 from typing import Union
 
 from colorama import Fore, init
+
+
+# class LogLevel(Enum):
+#     """
+#     日志登记
+#     """
+#     exception = 60
+#     critical = 50
+#     fatal = 55
+#     error = 40
+#     warning = 30
+#     warn = 25
+#     notice = 20
+#     info = 15
+#     debug = 10
+#     notset = 0
 
 
 class LogLevel:
@@ -350,74 +367,150 @@ class Logger(object):
 
     @property
     def print_level(self):
+        """
+        控制台输出最低等级
+        :return:
+        """
         return self.params.get("print_level")
 
     @print_level.setter
     def print_level(self, print_level):
+        """
+        控制台输出最低等级
+        :param print_level:
+        :return:
+        """
         self.params["print_level"] = print_level
 
     @property
     def datetime_format(self):
+        """
+        输出时间格式
+        :return:
+        """
         return self.params.get("datetime_format")
 
     @datetime_format.setter
     def datetime_format(self, datetime_format):
+        """
+        输出时间格式
+        :return:
+        """
         self.params["datetime_format"] = datetime_format
 
     @property
     def log_level(self):
+        """
+        写入文件的日志最低等级
+        :return:
+        """
         return self.params.get("log_level")
 
     @log_level.setter
     def log_level(self, log_level):
+        """
+        写入文件的日志最低等级
+        :param log_level:日志等级
+        :return:
+        """
         self.params["log_level"] = log_level
 
     @property
     def file_encoding(self):
+        """
+        日志编码
+        :return:
+        """
         return self.params.get("file_encoding")
 
     @file_encoding.setter
     def file_encoding(self, file_encoding):
+        """
+        日志编码
+        :return:
+        """
         self.params["file_encoding"] = file_encoding
 
     @property
     def log_dir(self):
+        """
+        日志路径
+        :return:
+        """
         return self.params.get("log_dir")
 
     @log_dir.setter
     def log_dir(self, log_dir: str):
+        """
+        日志路径
+        :return:
+        """
         self.params["log_dir"] = log_dir
 
     @property
     def date_rotate(self):
+        """
+        日志文件路径是否包含年月日
+        :return:
+        """
         return self.params.get("date_rotate")
 
     @date_rotate.setter
-    def date_rotate(self, date_rotate: str):
-        self.params["date_rotate"] = date_rotate
+    def date_rotate(self, date_rotate: bool):
+        """
+        日志文件路径是否包含年月日
+        :param date_rotate:
+        :return:
+        """
+        self.params["date_rotate"] = bool(date_rotate)
 
     @property
     def is_color(self):
+        """
+        控制台日志是否开启彩色输出
+        :return:
+        """
         return self.params.get("is_color")
 
     @is_color.setter
     def is_color(self, is_color: bool):
-        self.params["is_color"] = is_color
+        """
+        控制台日志是否开启彩色输出
+        :return:
+        """
+        self.params["is_color"] = bool(is_color)
 
     @property
     def title(self):
+        """
+        日志名称
+        :return:
+        """
         return self.params.get("title")
 
     @title.setter
     def title(self, title: str):
+        """
+        日志名称
+        :return:
+        """
         self.params["title"] = title
 
     @property
     def format(self):
+        """
+        日志打印格式
+        :return:
+        """
         return self.params.get("format")
 
     @format.setter
     def format(self, message_format: str):
+        """
+        日志打印格式
+        :param message_format:
+        :return:
+        """
         self.params["format"] = message_format
 
     def __del__(self):
