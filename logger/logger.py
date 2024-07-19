@@ -151,6 +151,7 @@ class Logger(object):
         self.params["print_level"] = self.params.get("print_level", self.__log_level.notset)
         self.params["file_level"] = self.params.get("file_level", self.__log_level.notset)
         self.params["is_color"] = self.params.get("is_color", False)
+        self.params["file_extension"] = self.params.get("file_extension", True)
         self.params["file_encoding"] = self.params.get("file_encoding", "utf-8")
         self.params["datetime_format"] = self.params.get("datetime_format", "%Y-%m-%d %H:%M:%S")
         self.params["format"] = self.params.get("format", "[datetime] [[class_name]-[func_name]]|"
@@ -273,6 +274,14 @@ class Logger(object):
         else:
             raise "筛选条件错误：{'term':'message','value':'错误','cond':'in'}"
 
+    @property
+    def file_extension(self):
+        return self.params.get("file_extension")
+
+    @file_extension.setter
+    def file_extension(self, content: bool):
+        self.params["file_extension"] = bool(content)
+
     def __file_handler(self, log_level="debug"):
         """
         获取文件句柄
@@ -286,7 +295,11 @@ class Logger(object):
                 today = os.path.join(str(localtime.tm_year), str(localtime.tm_mon), str(localtime.tm_mday))
             filepath = os.path.join(self.params.get("log_dir"), today, categorize)
             os.makedirs(filepath, exist_ok=True)
-            filepath = os.path.join(filepath, "{0}.{1}".format(self.params.get("title"), log_level.lower()))
+            if self.params.get("file_extension"):
+                file_name = "{0}.{1}".format(self.params.get("filename", self.params.get("title")), log_level.lower())
+            else:
+                file_name = "{0}.{1}".format(self.params.get("filename", self.params.get("title")), "log")
+            filepath = os.path.join(filepath, file_name)
             file = open(filepath, 'a', encoding=self.params.get("file_encoding"))
             return file
         else:
