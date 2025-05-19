@@ -3,34 +3,19 @@
 # @项目名称 :pytorch
 # @文件名称 :new_log.py
 # @作者名称 :sxzhang1
-# @日期时间 :2024/2/29 13:25
+# @日期时间 :2024/02/29 13:25
+# @更新时间 :2025/05/19 10:10
 # @文件介绍 :
 """
-from enum import Enum
 import inspect
 import os
 import re
 import time
 from datetime import datetime
+from enum import Enum
 from typing import Union
 
 from colorama import Fore, init
-
-
-# class LogLevel(Enum):
-#     """
-#     日志登记
-#     """
-#     exception = 60
-#     critical = 50
-#     fatal = 55
-#     error = 40
-#     warning = 30
-#     warn = 25
-#     notice = 20
-#     info = 15
-#     debug = 10
-#     notset = 0
 
 
 class LogLevel:
@@ -525,13 +510,12 @@ class Logger(object):
         self.__params_dict["[datetime]"] = self.__dt()
         self.__params_dict["[lineno]"] = self.__line_no()
 
-    def __format_message(self, log_level, message, extra, end=os.linesep):
+    def __format_message(self, log_level, message, extra):
         """
         格式化信息
         :param log_level:
         :param message:
         :param extra:
-        :param end:
         :return:
         """
         format_str = self.params.get("format")
@@ -541,7 +525,7 @@ class Logger(object):
                 format_str = format_str.replace(fs, str(self.__params_dict.get(fs)))
             if log_level >= self.params.get("file_level") and self.params.get("log_dir"):
                 __open_file = self.__file_handler(self.__log_level.get_label_of_level(log_level))
-                __open_file.write(format_str + end)
+                print(format_str,  file=__open_file)
                 __open_file.flush()
                 __open_file.close()
             if log_level >= self.params.get("print_level"):
