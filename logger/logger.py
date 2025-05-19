@@ -12,7 +12,6 @@ import os
 import re
 import time
 from datetime import datetime
-from enum import Enum
 from typing import Union
 
 from colorama import Fore, init
