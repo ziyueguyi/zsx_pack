@@ -373,6 +373,23 @@ class Logger(object):
         self.params["print_level"] = print_level
 
     @property
+    def file_level(self):
+        """
+        文件日志输出最低等级
+        :return:
+        """
+        return self.params.get("file_level")
+
+    @file_level.setter
+    def file_level(self, file_level):
+        """
+        文件日志记录最低等级
+        :param file_level:
+        :return:
+        """
+        self.params["file_level"] = file_level
+
+    @property
     def datetime_format(self):
         """
         输出时间格式
