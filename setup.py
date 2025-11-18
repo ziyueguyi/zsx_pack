@@ -17,7 +17,7 @@ setup(
     # 在 PyPI 上搜索的项目名称。
     name="zsx_pack",
     # 项目版本号，一般由三部分组成：MAJOR, MINOR, MAINTENANCE
-    version="1.0.7",
+    version="1.0.9",
     # 作者信息
     author="zsx",
     author_email="17630583910@163.com",

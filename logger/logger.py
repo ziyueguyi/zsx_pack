@@ -14,8 +14,6 @@ import time
 from datetime import datetime
 from typing import Union
 
-from colorama import Fore, init
-
 
 class LogLevel:
     """
@@ -156,8 +154,8 @@ class Logger(object):
         self.params["file_extension"] = self.params.get("file_extension", True)
         self.params["file_encoding"] = self.params.get("file_encoding", "utf-8")
         self.params["datetime_format"] = self.params.get("datetime_format", "%Y-%m-%d %H:%M:%S")
-        self.params["format"] = self.params.get("format", "[datetime] [[class_name]-[func_name]]|"
-                                                          "<[log_level]>|([lineno]):[message|extra]")
+        log_format = "[datetime] <[log_level]>|[[class_name]-[func_name]]|([lineno]):[message|extra]"
+        self.params["format"] = self.params.get("format", log_format)
         self.__params_dict = {
             "[datetime]": self.__dt(),
             "[class_name]": self.__class_name(),
@@ -165,7 +163,6 @@ class Logger(object):
             "[log_level]": "",
             "[message|extra]": "[message|extra]",
         }
-        init()
 
     @property
     def __filter(self):
@@ -536,21 +533,34 @@ class Logger(object):
                 print(format_str, file=__open_file)
                 __open_file.flush()
                 __open_file.close()
+            else:
+                pass
             if log_level >= self.params.get("print_level"):
-                color_dict = {
-                    self.__log_level.exception: Fore.LIGHTRED_EX,
-                    self.__log_level.fatal: Fore.LIGHTCYAN_EX,
-                    self.__log_level.critical: Fore.CYAN,
-                    self.__log_level.error: Fore.RED,
-                    self.__log_level.warning: Fore.LIGHTYELLOW_EX,
-                    self.__log_level.warn: Fore.YELLOW,
-                    self.__log_level.notice: Fore.LIGHTGREEN_EX,
-                    self.__log_level.info: Fore.LIGHTWHITE_EX,
-                    self.__log_level.debug: Fore.WHITE,
-                    self.__log_level.notset: Fore.LIGHTBLACK_EX,
-                }
-                format_str = color_dict[log_level] + format_str + Fore.RESET if self.is_color else format_str
-                print(format_str)
+                if self.is_color:
+                    try:
+                        from colorama import Fore, colorama_text
+                        color_dict = {
+                            self.__log_level.exception: Fore.LIGHTRED_EX,
+                            self.__log_level.fatal: Fore.LIGHTCYAN_EX,
+                            self.__log_level.critical: Fore.CYAN,
+                            self.__log_level.error: Fore.RED,
+                            self.__log_level.warning: Fore.LIGHTYELLOW_EX,
+                            self.__log_level.warn: Fore.YELLOW,
+                            self.__log_level.notice: Fore.LIGHTGREEN_EX,
+                            self.__log_level.info: Fore.LIGHTWHITE_EX,
+                            self.__log_level.debug: Fore.WHITE,
+                            self.__log_level.notset: Fore.LIGHTBLACK_EX,
+                        }
+                        with colorama_text():
+                            print(color_dict[log_level] + str(format_str) + Fore.RESET)
+                        del color_dict
+                    except  ModuleNotFoundError or ImportError:
+                        print("如需要使用彩色日志，请安装colorama模块")
+                        print(format_str)
+                else:
+                    print(format_str)
+            else:
+                pass
         else:
             pass
 
