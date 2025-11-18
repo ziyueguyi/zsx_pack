@@ -116,16 +116,17 @@ class Logger(object):
     def __init__(self, **kwargs):
         """
         日志
-        :param title:日志名称
+        :param title:日志名称(默认实例化脚本名称）
         :param log_dir: 日志路径，
-        :param file_level: 日志等级
-        :param categorize:路径是否包含title
-        :param date_rotate:是否添加日期路径
+        :param file_level: 日志等级(默认为notset）
+        :param categorize:当log_dir有值是，该参数生效，路径是否包含title
+        :param date_rotate:当log_dir有值是，该参数生效，是否添加日期路径
         :param datetime_format:日期格式
-        :param print_level:控制台打印的最低等级
+        :param print_level:控制台打印的最低等级(默认为notset）
         :param record_millisecond:日志时间是否包含毫秒
         :param file_encoding:日志编码，默认为
-        :param is_color:控制台输出是否彩色输出
+        :param file_extension:当log_dir有值是，该参数生效，如果为True时，会使用告警等级作为日志文件后缀，(默认为True）
+        :param is_color:控制台输出是否彩色输出(默认为False）
         :param format:打印输出格式,目前只包含[datetime]、[func_name]、[log_level]、[lineno]、[message]
         """
         self.__log_level = LogLevel()
@@ -277,10 +278,18 @@ class Logger(object):
 
     @property
     def file_extension(self):
+        """
+        如果为True时，会使用告警等级作为日志文件后缀
+        :return:
+        """
         return self.params.get("file_extension")
 
     @file_extension.setter
     def file_extension(self, content: bool):
+        """
+        如果为True时，会使用告警等级作为日志文件后缀
+        :return:
+        """
         self.params["file_extension"] = bool(content)
 
     def __file_handler(self, log_level="debug"):
@@ -509,7 +518,7 @@ class Logger(object):
         self.__params_dict["[datetime]"] = self.__dt()
         self.__params_dict["[lineno]"] = self.__line_no()
 
-    def __format_message(self, log_level, message, extra):
+    def __format_message(self, log_level, message, extra, *args, **kwargs):
         """
         格式化信息
         :param log_level:
@@ -524,7 +533,7 @@ class Logger(object):
                 format_str = format_str.replace(fs, str(self.__params_dict.get(fs)))
             if log_level >= self.params.get("file_level") and self.params.get("log_dir"):
                 __open_file = self.__file_handler(self.__log_level.get_label_of_level(log_level))
-                print(format_str,  file=__open_file)
+                print(format_str, file=__open_file)
                 __open_file.flush()
                 __open_file.close()
             if log_level >= self.params.get("print_level"):
@@ -545,88 +554,88 @@ class Logger(object):
         else:
             pass
 
-    def notset(self, message, extra=None):
+    def notset(self, message, extra=None, *args, **kwargs):
         """
         提示日志
         :param message:
         :param extra:
         :return:
         """
-        self.__format_message(self.__log_level.notset, message, extra)
+        self.__format_message(self.__log_level.notset, message, extra, *args, **kwargs)
 
-    def debug(self, message, extra=None):
+    def debug(self, message, extra=None, *args, **kwargs):
         """
         调试日志
         :param message:
         :param extra:
         :return:
         """
-        self.__format_message(self.__log_level.debug, message, extra)
+        self.__format_message(self.__log_level.debug, message, extra, *args, **kwargs)
 
-    def info(self, message, extra=None):
+    def info(self, message, extra=None, *args, **kwargs):
         """
         日志信息
         :param message:
         :param extra:
         :return:
         """
-        self.__format_message(self.__log_level.info, message, extra)
+        self.__format_message(self.__log_level.info, message, extra, *args, **kwargs)
 
-    def notice(self, message, extra=None):
+    def notice(self, message, extra=None, *args, **kwargs):
         """
         日志信息
         :param message:
         :param extra:
         :return:
         """
-        self.__format_message(self.__log_level.notice, message, extra)
+        self.__format_message(self.__log_level.notice, message, extra, *args, **kwargs)
 
-    def warning(self, message, extra=None):
+    def warning(self, message, extra=None, *args, **kwargs):
         """
         警告
         :param message:
         :param extra:
         :return:
         """
-        self.__format_message(self.__log_level.warning, message, extra)
+        self.__format_message(self.__log_level.warning, message, extra, *args, **kwargs)
 
-    def warn(self, message, extra=None):
+    def warn(self, message, extra=None, *args, **kwargs):
         """
         警告
         :param message:
         :param extra:
         :return:
         """
-        self.__format_message(self.__log_level.warn, message, extra)
+        self.__format_message(self.__log_level.warn, message, extra, *args, **kwargs)
 
-    def error(self, message, extra=None):
+    def error(self, message, extra=None, *args, **kwargs):
         """
         错误
         :param message:
         :param extra:
         :return:
         """
-        self.__format_message(self.__log_level.error, message, extra)
+        self.__format_message(self.__log_level.error, message, extra, *args, **kwargs)
 
-    def fatal(self, message, extra=None):
+    def fatal(self, message, extra=None, *args, **kwargs):
         """
         致命的错误
         :param message:
         :param extra:
         :return:
         """
-        self.__format_message(self.__log_level.fatal, message, extra)
+        self.__format_message(self.__log_level.fatal, message, extra, *args, **kwargs)
 
-    def critical(self, message, extra=None):
+    def critical(self, message, extra=None, *args, **kwargs):
         """
         严重的错误
         :param message:
         :param extra:
         :return:
         """
-        self.__format_message(self.__log_level.critical, message, extra)
+        self.__format_message(self.__log_level.critical, message, extra, *args, **kwargs)
 
-    def exception(self, message, extra=None, exc_info=Exception):
+    def exception(self, message, extra=None, exc_info=Exception, *args, **kwargs):
         """
         严重的错误
         :param message:
@@ -634,5 +643,5 @@ class Logger(object):
         :param exc_info:异常类型
         :return:
         """
-        self.__format_message(self.__log_level.critical, message, extra)
+        self.__format_message(self.__log_level.critical, message, extra, *args, **kwargs)
         raise exc_info(message)
